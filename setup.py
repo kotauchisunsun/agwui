@@ -21,6 +21,9 @@ version = agwui.__version__
 setup(
     name="agwui",
     version=version,
+    packages=['agwui'],
+    package_dir={'agwui': 'agwui'},
+    package_data={'agwui': ['templates/*.html']},
     url='https://github.com/kotauchisunsun/agwui',
     author='kotauchisunsun',
     author_email='kotauchisunshine@hotmail.co.jp',
@@ -28,7 +31,6 @@ setup(
     maintainer_email='kotauchisunshine@hotmail.co.jp',
     description='agwui is a library for Automatically Generating Web User Interface for any Python object.',
     long_description=readme,
-    packages=find_packages(),
     install_requires=_requires_from_file('requirements.txt'),
     license="MIT",
     classifiers=[
@@ -38,10 +40,5 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'License :: OSI Approved :: MIT License',
-    ],
-    entry_points="""
-      # -*- Entry points: -*-
-      [console_scripts]
-      pkgdep = pypipkg.scripts.command:main
-    """,
+    ]
 )
