@@ -1,7 +1,7 @@
 <html>
     <body>
        <article>
-           <form action="{{action_path}}" method="POST">
+           <form action="{{action_path}}" method="POST" enctype="multipart/form-data">
                 <div>
                     <h1>{{function_definition.name}}</h1>
                     <p>{{function_definition.description}}</p>
@@ -10,10 +10,16 @@
                     <div>
                         <h2>{{parameter.name}}</h2>
                         <p>type: {{parameter.arg_type}}</p>
-                        {% if parameter.default != None %}
-                            <input type="text" name="{{parameter.name}}" value="{{parameter.default}}">
+                        {% if parameter.arg_type == "FileType" %}
+                            <input type="file" name="{{parameter.name}}">
+                        {% elif parameter.arg_type == "ImageType" %}
+                            <input type="file" name="{{parameter.name}}">
                         {% else %}
-                            <input type="text" name="{{parameter.name}}">
+                            {% if parameter.default != None %}
+                                <input type="text" name="{{parameter.name}}" value="{{parameter.default}}">
+                            {% else %}
+                                <input type="text" name="{{parameter.name}}">
+                            {% endif %}
                         {% endif %}
                     </div>
                 {% endfor %}

@@ -1,5 +1,6 @@
 from flask import Flask
 from agwui import inject_class_app
+from agwui.ExtraType import FileType, ImageType
 
 class SampleClass:
     """
@@ -9,11 +10,11 @@ class SampleClass:
     def __init__(self):
         pass
     
-    def f(self, n):
-        return 3*n
+    def f(self, f: FileType) -> FileType:
+        return FileType(f.file_obj)
 
-    def g(self,n: int) -> int:
-        return 2*n
+    def g(self, image: ImageType) -> ImageType:
+        return ImageType(image.file_obj)
     
     def h(self,s: str) -> str:
         return "hoge"+s

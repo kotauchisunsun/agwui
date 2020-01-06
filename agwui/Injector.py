@@ -1,8 +1,10 @@
-from flask import Flask, render_template_string, jsonify, request
+from flask import Flask, render_template_string, jsonify, request, send_file, make_response
 from typing import Callable,Any
 from inspect import getdoc,getmembers,ismethod
+from .FunctionParameter import FunctionParameter
 from .FunctionDefinition import make_function_definition
 from .FunctionEntrypoint import make_function_entrypoint
+from .ExtraType import FileType, ImageType
 import os.path
 
 template_dir = os.path.join(os.path.dirname(__file__),"templates")
@@ -13,6 +15,14 @@ def render_agwui_template(template_name,**context):
         open(filename).read(),
         **context
     )
+
+def extract_obj(flaskRequest, parameter: FunctionParameter) -> Any:
+    if parameter.arg_type == FileType:
+        return FileType(flaskRequest.files[parameter.name])
+    elif parameter.arg_type == ImageType:
+        return ImageType(flaskRequest.files[parameter.name])
+    else:
+        return (parameter.arg_type)(flaskRequest.form[parameter.name])
 
 def inject_function_app(app: Flask,function: Callable[...,Any]):
     function_definition = make_function_definition(function)
@@ -29,11 +39,30 @@ def inject_function_app(app: Flask,function: Callable[...,Any]):
 
     def post():
         values = [
-            (parameter.arg_type)(request.form[parameter.name])
+            extract_obj(request, parameter)
             for parameter
             in function_definition.parameters
         ]
-        return str(function(*values))
+
+        result = function(*values)
+
+        if function_definition.return_type == FileType:
+            response = make_response()
+            response.data = result.file_obj.read()
+            response.mimetype = "application/octet-stream"
+            return response
+        elif function_definition.return_type == ImageType:
+            from base64 import b64encode
+            b64data = b64encode(result.file_obj.read()).decode()
+            ext = result.file_obj.filename.split(".")[-1]
+            return render_agwui_template(
+                "preview_image.html",
+                b64data=b64data,
+                ext=ext
+            )
+        else:
+            return str(result)
+
     post.__name__ = "%s_post" % function_definition.name
     app.route(function_entrypoint.path,methods=["POST"])(post)
     
