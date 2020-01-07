@@ -2,7 +2,6 @@ from flask import Flask, jsonify
 from .class_injector import ClassInjector
 from typing import Any
 from .FunctionDefinition import make_function_definition
-from .FunctionEntrypoint import make_function_entrypoint
 from .path_builder import PathBuilder
 
 class GetSchemaFunctionInjector(ClassInjector):

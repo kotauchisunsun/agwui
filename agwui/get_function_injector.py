@@ -2,7 +2,6 @@ from flask import Flask, render_template_string
 from .class_injector import ClassInjector
 from typing import Any
 from .FunctionDefinition import make_function_definition
-from .FunctionEntrypoint import make_function_entrypoint
 from .path_builder import PathBuilder
 
 class GetFunctionInjector(ClassInjector):
@@ -14,7 +13,6 @@ class GetFunctionInjector(ClassInjector):
 
     def process(self, obj: Any):
         function_definition = make_function_definition(obj)
-        function_entrypoint = make_function_entrypoint(function_definition)
    
         def get():
             return render_template_string(

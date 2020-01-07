@@ -1,7 +1,6 @@
 from .class_handler import ClassHandler
 from flask import Flask, render_template_string
 from .FunctionDefinition import make_function_definition
-from .FunctionEntrypoint import make_function_entrypoint
 from .path_builder import PathBuilder
 from .function_extractor import FunctionExtractor
 from typing import Any
