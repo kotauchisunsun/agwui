@@ -9,11 +9,11 @@
             {% for function_entrypoint in function_entrypoints %}
                 <section>
                     <h2>
-                        <a href="{{ function_entrypoint.path }}">{{ function_entrypoint.function_definition.name }}</a>
+                        <a href="{{ function_entrypoint['path'] }}">{{ function_entrypoint['definition'].name }}</a>
                     </h2>
                     <h3>description</h3>
                     <p>
-                        {{ function_entrypoint.function_definition.description }}
+                        {{ function_entrypoint['definition'].description }}
                     </p>                        
                 </section>
             {% endfor %}
