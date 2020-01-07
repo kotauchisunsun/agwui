@@ -6,8 +6,9 @@ from .function_extractor import FunctionExtractor
 from typing import Any
 from inspect import getdoc
 
+
 class IndexClassHandler(ClassHandler):
-    def __init__(self, app:Flask, function_extractor: FunctionExtractor, get_path_builder: PathBuilder, path: str, template: str):
+    def __init__(self, app: Flask, function_extractor: FunctionExtractor, get_path_builder: PathBuilder, path: str, template: str):
         self.app = app
         self.path = path
         self.template = template
@@ -37,5 +38,5 @@ class IndexClassHandler(ClassHandler):
                 self.template,
                 name=name,
                 description=description,
-                function_entrypoints = function_entrypoints
+                function_entrypoints=function_entrypoints
             )

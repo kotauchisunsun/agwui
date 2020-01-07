@@ -1,8 +1,9 @@
 from .class_injector import ClassInjector
 from .class_handler import ClassHandler
-from typing import Any,List
-from inspect import getdoc,getmembers,ismethod
+from typing import Any, List
+from inspect import getdoc, getmembers, ismethod
 from .function_extractor import FunctionExtractor
+
 
 class FunctionInjector(ClassInjector):
     def __init__(self, function_extractor: FunctionExtractor, handlers: List[ClassHandler]):

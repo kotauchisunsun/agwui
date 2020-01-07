@@ -1,6 +1,7 @@
 from flask import Flask
 from agwui import inject_class_app
 
+
 def test_inject_class_app():
     class SampleClass:
         """
@@ -9,7 +10,7 @@ def test_inject_class_app():
 
         def __init__(self):
             pass
-        
+
         def f(self, n: int) -> int:
             return n * 10
 
@@ -22,7 +23,7 @@ def test_inject_class_app():
 
     assert test_app.get("/").status_code == 200
     assert test_app.get("/f").status_code == 200
-    assert test_app.post("/f",data={"n":10}).data == b"100"
+    assert test_app.post("/f", data={"n": 10}).data == b"100"
     assert test_app.get("/f/schema").status_code == 200
 
 
@@ -34,10 +35,10 @@ def test_inject_class_multi_functions_app():
 
         def __init__(self):
             pass
-        
+
         def f(self, n: int) -> int:
             return n * 10
-        
+
         def g(self, s: str) -> str:
             return s + "a"
 

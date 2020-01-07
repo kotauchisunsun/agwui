@@ -3,8 +3,9 @@ from .class_injector import ClassInjector
 from typing import Any
 from .FunctionParameter import FunctionParameter
 from .FunctionDefinition import make_function_definition
-from .ExtraType import FileType,ImageType
+from .ExtraType import FileType, ImageType
 from .path_builder import PathBuilder
+
 
 def extract_obj(flaskRequest, parameter: FunctionParameter) -> Any:
     if parameter.arg_type == FileType:
@@ -14,6 +15,7 @@ def extract_obj(flaskRequest, parameter: FunctionParameter) -> Any:
     else:
         return (parameter.arg_type)(flaskRequest.form[parameter.name])
 
+
 class PostFunctionInjector(ClassInjector):
     def __init__(self, app: Flask, path_builder: PathBuilder, preview_image_template_str: str):
         self.app = app
@@ -22,7 +24,7 @@ class PostFunctionInjector(ClassInjector):
 
     def process(self, obj: Any):
         function_definition = make_function_definition(obj)
-   
+
         def post():
             values = [
                 extract_obj(request, parameter)
@@ -50,5 +52,5 @@ class PostFunctionInjector(ClassInjector):
                 return str(result)
 
         post.__name__ = "%s_post" % function_definition.name
-        self.app.route(self.path_builder.build(function_definition.name),methods=["POST"])(post)
-
+        self.app.route(self.path_builder.build(
+            function_definition.name), methods=["POST"])(post)
